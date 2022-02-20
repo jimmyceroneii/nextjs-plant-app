@@ -1,14 +1,16 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import { enumToProteinMap, EssentialProtein, PlantToProtein } from '../types';
 
+// if a plant has >50% amino acid I included it
+
 export const plantToProteinMap: PlantToProtein = {
-  bean: ['Histidine'],
+  blackBean: ['Histidine'],
   rice: ['Histidine'],
 };
 
 const PlantList: React.FC = () => {
-  const allPlants = ['bean', 'rice'];
-  const [checked, setChecked] = useState<string[]>(['bean']);
+  const allPlants = ['blackBean', 'rice'];
+  const [checked, setChecked] = useState<string[]>(['blackBean']);
   const [proteins, setProteins] = useState<EssentialProtein[]>(['Histidine']);
   const [, setProteinCount] = useState<number[]>([0, 0, 0, 0, 0, 0, 1, 0, 0]);
 
@@ -70,22 +72,23 @@ const PlantList: React.FC = () => {
   return (
     <div className='flex flex-row justify-between'>
       <div className='flex flex-col'>
-        {allPlants.map((plant, index) => (
-          <div
-            key={index}
-            className='flex flex-row bg-slate-200 rounded-md m-2'
-          >
-            <input
-              value={plant}
-              type='checkbox'
-              data-cy={`check-box-${plant}`}
-              onChange={handleCheck}
-              checked={checked.includes(plant)}
-              className='m-2'
-            />
-            <span className='m-2'>{plant}</span>
-          </div>
-        ))}
+        {allPlants.map((plant, index) => {
+          return (
+            <div
+              key={index}
+              className='flex flex-row bg-slate-200 rounded-md m-2'
+            >
+              <input
+                value={plant}
+                type='checkbox'
+                data-cy={`check-box-${plant}`}
+                onChange={handleCheck}
+                checked={checked.includes(plant)}
+                className='m-2' />
+              <span className='m-2'>{plant}</span>
+            </div>
+          );
+        })}
       </div>
       <div>
         {proteins &&
